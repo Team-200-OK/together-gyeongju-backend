@@ -93,6 +93,11 @@ public enum HttpErrorCode {
     // ----- Policy ------
     PolicyNotFoundError(
             HttpStatus.NOT_FOUND, "존재하지 않는 정책입니다."
+    ),
+
+    // ----- Suggestion ------
+    SuggestionNotFoundError(
+            HttpStatus.NOT_FOUND, "존재하지 않는 제안 정책입니다."
     );
 
     private final HttpStatus httpStatus;

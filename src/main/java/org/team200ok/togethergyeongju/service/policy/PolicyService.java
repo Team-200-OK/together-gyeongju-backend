@@ -8,9 +8,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.team200ok.togethergyeongju.config.HttpErrorCode;
+import org.team200ok.togethergyeongju.domain.User;
 import org.team200ok.togethergyeongju.domain.policy.Policy;
 import org.team200ok.togethergyeongju.domain.policy.PolicyImage;
-import org.team200ok.togethergyeongju.domain.User;
 import org.team200ok.togethergyeongju.domain.policy.PolicyScrap;
 import org.team200ok.togethergyeongju.dto.policy.detail.PolicyDetailResponseDto;
 import org.team200ok.togethergyeongju.dto.policy.summary.PolicySummaryListDto;
@@ -50,21 +50,30 @@ public class PolicyService {
         }
 
         List<PolicySummaryListDto> policySummaryList = policyPage.map( policy ->
-                    PolicySummaryListDto.of(policy, policyImageRepository.findByPolicyId(policy.getId()))
+                    PolicySummaryListDto.of(policy,
+                            policyImageRepository.findByPolicyId(policy.getId()),
+                            policyScrapRepository.findByUserAndPolicy(user, policy)
+                    )
             ).toList();
 
         return PolicySummaryListResponseDto.of(policySummaryList, imageApiUrl);
 
     }
 
-    public PolicyDetailResponseDto getPolicyDetail(Long policyId){
+    public PolicyDetailResponseDto getPolicyDetail(User user, Long policyId){
 
         Policy foundPolicy = policyRepository.findById(policyId)
                 .orElseThrow(()-> new HttpErrorException(HttpErrorCode.PolicyNotFoundError));
 
         List<PolicyImage> foundImages = policyImageRepository.findByPolicyId(policyId);
 
-        return PolicyDetailResponseDto.of(foundPolicy, foundImages, imageApiUrl);
+        boolean scrapStatus;
+
+        PolicyScrap foundPolicyScrap = policyScrapRepository.findByUserAndPolicy(user, foundPolicy);
+
+        scrapStatus = foundPolicyScrap != null;
+
+        return PolicyDetailResponseDto.of(foundPolicy, foundImages, imageApiUrl, scrapStatus);
     }
 
     @Transactional
