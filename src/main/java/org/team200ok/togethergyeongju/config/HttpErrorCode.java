@@ -82,6 +82,11 @@ public enum HttpErrorCode {
     ),
     NoSuchRefreshTokenError(
             HttpStatus.UNAUTHORIZED, "존재하지 않은 RefreshToken입니다."
+    ),
+
+    // ----- Policy ------
+    PolicyNotFoundError(
+            HttpStatus.NOT_FOUND, "존재하지 않는 정책입니다."
     );
 
     private final HttpStatus httpStatus;
