@@ -38,11 +38,14 @@ public class PolicyDetailResponseDto {
     @Schema(description = "정책 이미지들")
     private List<PolicyImageElement> images;
 
+    @Schema(description = "정책 스크랩 여부")
+    private boolean scrapStatus;
+
     @Schema(description = "정책 정보 생성시간")
     private LocalDateTime createdAt;
 
 
-    public static PolicyDetailResponseDto of(Policy foundPolicy, List<PolicyImage> foundImages, String imageApiUrl) {
+    public static PolicyDetailResponseDto of(Policy foundPolicy, List<PolicyImage> foundImages, String imageApiUrl, boolean scrapStatus) {
         return PolicyDetailResponseDto.builder()
                 .message("정책 상세정보를 성공적으로 불러왔습니다.")
                 .imageApiUrl(imageApiUrl)
@@ -53,6 +56,7 @@ public class PolicyDetailResponseDto {
                 .images(foundImages.stream()
                         .map(PolicyImageElement::fromEntity)
                         .toList())
+                .scrapStatus(scrapStatus)
                 .createdAt(foundPolicy.getCreatedAt())
                 .build();
     }

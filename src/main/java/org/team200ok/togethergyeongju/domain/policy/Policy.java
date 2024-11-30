@@ -2,11 +2,8 @@ package org.team200ok.togethergyeongju.domain.policy;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.team200ok.togethergyeongju.constant.JobCategory;
-import org.team200ok.togethergyeongju.domain.User;
 
 import java.time.LocalDateTime;
 

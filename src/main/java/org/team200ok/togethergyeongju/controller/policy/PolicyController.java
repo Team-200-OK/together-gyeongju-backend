@@ -9,10 +9,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.team200ok.togethergyeongju.config.HttpErrorCode;
 import org.team200ok.togethergyeongju.domain.User;
-import org.team200ok.togethergyeongju.domain.policy.PolicyScrap;
 import org.team200ok.togethergyeongju.dto.policy.detail.PolicyDetailResponseDto;
 import org.team200ok.togethergyeongju.dto.policy.detail.PolicyScrapResponseDto;
-import org.team200ok.togethergyeongju.dto.policy.summary.PolicySummaryListDto;
 import org.team200ok.togethergyeongju.dto.policy.summary.PolicySummaryListResponseDto;
 import org.team200ok.togethergyeongju.service.policy.PolicyService;
 import org.team200ok.togethergyeongju.swagger.ApiErrorCodeExample;
@@ -52,9 +50,10 @@ public class PolicyController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<PolicyDetailResponseDto> getPolicyDetail(
+            @AuthenticationPrincipal User user,
             @PathVariable(name = "id") Long id
     ){
-        PolicyDetailResponseDto policyDetail = policyService.getPolicyDetail(id);
+        PolicyDetailResponseDto policyDetail = policyService.getPolicyDetail(user, id);
 
         return new ResponseEntity<>(policyDetail, HttpStatus.OK);
     }
