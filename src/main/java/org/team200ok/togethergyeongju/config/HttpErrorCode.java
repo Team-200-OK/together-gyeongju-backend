@@ -82,6 +82,14 @@ public enum HttpErrorCode {
     ),
     NoSuchRefreshTokenError(
             HttpStatus.UNAUTHORIZED, "존재하지 않은 RefreshToken입니다."
+    ),
+
+    // ----- Survey ------
+    NoSuchSurveyError(
+            HttpStatus.NOT_FOUND, "존재하지 않은 설문조사입니다."
+    ),
+    NoSuchSurveySatisfiedError(
+            HttpStatus.NOT_FOUND, "존재하지 않은 설문 만족도입니다."
     );
 
     private final HttpStatus httpStatus;
